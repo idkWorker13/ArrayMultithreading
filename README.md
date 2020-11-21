@@ -1,5 +1,5 @@
 # ArrayMultithreading
-A way to easily run taks on arrays or similar objects
+A simpler Way to use Multithreading with Arrays or similar Objects
 
 Usage (see HelloWorld.java)
 
