@@ -1,5 +1,5 @@
 # ArrayMultithreading
-A simpler Way to use Multithreading with Arrays or similar Objects
+A simple Way to use Multithreading with Arrays or similar Objects
 
 Usage (see HelloWorld.java)
 
