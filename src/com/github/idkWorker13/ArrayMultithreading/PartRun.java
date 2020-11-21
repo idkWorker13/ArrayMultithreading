@@ -19,8 +19,16 @@ public class PartRun implements Runnable {
 	// Run the defined Action ( that the user specifies when creating an am obj) for object in this list
 	public void run() {
 		for (int i = beginn; i < end; i++) {
+			
+			/**The following code is to test the VariableProssesor... .java test
+			 * Here at i=42 a doble result is shown
+			if (i == 42) {
+				action.runForEach(i);
+			} */
+			
 			action.runForEach(i);
-		}
+			
+		} 
 	}
 
 

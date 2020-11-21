@@ -12,6 +12,7 @@ public abstract class AM implements MultithreadingAction {
 	
 	private PartRun[] runnables;
 	
+	// Standart Run
 	public AM(int i_lenght) {
 		
 		if (i_lenght <= 0) { // Checks if the programm got a good start
@@ -80,13 +81,29 @@ public abstract class AM implements MultithreadingAction {
 	
 	// Used when each Action gets its own Thread
 	private void initLessAction(int nActions) {
-		System.out.println("started initLessAction");
 		runnables = new PartRun[nActions]; // Create a runnable for each Action (i_lenght)
 		
 		for (int i = 0; i < nActions; i++) {
 			runnables[i] = new PartRun(this, i, (i+1)); // Creta a Part run, thats only has one job
 			executorService.execute(runnables[i]);
 		}
+	}
+	
+	/**
+	 *  Constructor with more options (For testing)
+	 */
+	
+	public AM(int i_lenght, int prossorCount) {
+			
+		if (i_lenght <= 0) { // Checks if the programm got a good start
+			System.err.println("AM should only be initialised normaly with integer highter than 0, " + i_lenght + " was tried.");
+			Thread.dumpStack();
+		};
+			
+		this.i_lenght = i_lenght;	
+		this.processorCount = prossorCount;
+		this.executorService = Executors.newFixedThreadPool(processorCount); // Create a Pool with the number of proccessors from given to us
+		run();
 	}
 	
 	
