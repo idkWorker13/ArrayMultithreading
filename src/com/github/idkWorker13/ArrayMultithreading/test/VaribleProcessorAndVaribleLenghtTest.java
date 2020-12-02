@@ -6,7 +6,7 @@ import com.github.idkWorker13.ArrayMultithreading.AM;
 public class VaribleProcessorAndVaribleLenghtTest {
 	
 	
-	static int maxCycles = 10000; // The maximum i lenght that gets tested
+	static int maxCycles = 1024; // The maximum i lenght that gets tested
 	static int maxProcessors = 64; // Till how much cpus sizes get tested, (how much threads will be spawned)
 	
 	// Test everything based on the above mentioned class
@@ -55,7 +55,7 @@ public class VaribleProcessorAndVaribleLenghtTest {
 			}
 		};
 		
-		// Check if the runForEch was called once for every instruction
+		// Check if the runForEach was called once for every instruction
 		// When every number in ints[] is 1 report true else false
 		for (int i = 0; i < ints.length; i++) {
 			if (ints[i]==1) {
