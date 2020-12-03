@@ -5,10 +5,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /*
- * This Object is a reusable Holder for PartRun Runnables and the Executor service
- * 
+ * This Object is a Executor for Multithreading Actions
+ * It contains Runnables and an ExecutorService
  */
-public class PartRunHolder {
+public class ActionExecutor {
 	
 	// initially setUp parameters
 	private PartRun[] partRuns;
@@ -18,6 +18,7 @@ public class PartRunHolder {
 	// parameter for the current run
 	private int nTasks;
 	private CountDownLatch threadsRemaining;
+	private MultithreadingAction action;
 	
 	/*
 	 * does the init work based on Parameters form the Constructors
@@ -41,12 +42,12 @@ public class PartRunHolder {
 	 */
 	
 	/*
-	 * Creates a PartRunHolder with a specified number of PartRuns Runnables
+	 * Creates a ActionExecutor with a specified number of PartRuns Runnables
 	 */
-	public PartRunHolder(int nRunnables) {
+	public ActionExecutor(int nRunnables) {
 		
 		if (nRunnables <= 0) { // Checks if the programm got a good start
-			System.err.println("PartRunHolder should only be initialised normaly with integer highter than 0, " + nRunnables + " was tried.");
+			System.err.println("ActionExecutor should only be initialised normaly with integer highter than 0, " + nRunnables + " was tried.");
 			Thread.dumpStack();
 			return;
 		};
@@ -56,30 +57,29 @@ public class PartRunHolder {
 	}
 	
 	/*
-	 * Creates a PartRunHolder dependant on the number of processors
+	 * Creates a ActionExecutor dependant on the number of processors
 	 */
-	public PartRunHolder() {
-		
-		
-		
+	public ActionExecutor() {
 		
 		this.nRunnables = Runtime.getRuntime().availableProcessors();
 		setUp();
+		
 	}
 	
 	
 	/*
 	 * Runs the tasks based on a AM Object and the number of tasks
 	 */
-	public void executeTasks(AM action) {
+	public void executeTasks(MultithreadingAction action, int nTasks) {
 		
-		// change how many tasks we have based on the AM Object
-		nTasks = action.getTasksLenght();
+		// set the parameters for this run
+		this.nTasks = nTasks;
+		this.action = action;
 		
 		if (nTasks <= nRunnables) { // We have a processor for each job (MultithreadingAction) 
-			initLessAction(action);
+			initLessAction();
 		} else { // Multiple Jobs (MultithreadingAction) per thread
-			initPlusActions(action);
+			initPlusActions();
 		}
 		
 			
@@ -94,7 +94,7 @@ public class PartRunHolder {
 	
 		
 	// Used when there are multiple jobs for each thread
-	private void initPlusActions(AM action) {
+	private void initPlusActions() {
 		
 		// Create a latch corresponding to the number of runnables
 		threadsRemaining = new CountDownLatch(nRunnables);
@@ -123,7 +123,7 @@ public class PartRunHolder {
 	}
 	
 	// Used when each Action gets its own Thread
-	private void initLessAction(AM action) {	
+	private void initLessAction() {	
 		
 		// Create a latch corresponding to the number of actually executed runnables
 		threadsRemaining = new CountDownLatch(nTasks);

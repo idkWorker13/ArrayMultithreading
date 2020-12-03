@@ -1,7 +1,8 @@
 package com.github.idkWorker13.ArrayMultithreading.test;
 
 import com.github.idkWorker13.ArrayMultithreading.AM;
-import com.github.idkWorker13.ArrayMultithreading.PartRunHolder;
+import com.github.idkWorker13.ArrayMultithreading.MultithreadingAction;
+import com.github.idkWorker13.ArrayMultithreading.ActionExecutor;
 
 public class KeepAExecutor {
 	
@@ -9,12 +10,12 @@ public class KeepAExecutor {
 	
 	public static void main(String[] args) {
 		
-		PartRunHolder partRunHolder = new PartRunHolder();
+		ActionExecutor actionExecutor = new ActionExecutor();
 		
 		
-		while(true) {
+		for(int i = 0; i <= 5; i++) {
 			String[] strings = new String[crewMembers];
-			new AM(crewMembers, partRunHolder) {
+			new AM(crewMembers, actionExecutor) {
 				
 				@Override
 				public void runForEach(int i) {
@@ -22,8 +23,8 @@ public class KeepAExecutor {
 				}
 			};
 			
-			for (int i = 0; i < strings.length; i++) {
-				System.out.println(strings[i]);
+			for (int a = 0; a < strings.length; a++) {
+				System.out.println(strings[a]);
 			}
 			
 			System.out.println("");
@@ -35,6 +36,24 @@ public class KeepAExecutor {
 			}
 		}
 		
+		
+		// You can use a Multithreading object and directly execute it on a partRunHolder
+		String[] members = {"Joe", "Bill", "Tyler"};
+		
+		MultithreadingAction action = (int i) -> {
+			System.out.println(members[i]);
+		};
+		
+		actionExecutor.executeTasks(action, members.length);
+		
+		System.out.println("---------------");
+		System.out.println(" And now again");
+		System.out.println("---------------");
+		
+		actionExecutor.executeTasks(action, members.length);
+		
+		// Remember when using a custom ActionExecutor to shut it down
+		actionExecutor.shutdown();
 	}
 
 }

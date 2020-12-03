@@ -13,11 +13,11 @@ public class PartRun implements Runnable {
 	// Used in telling when the executor has finished
 	private CountDownLatch threadsRemaining;
 	
-	public PartRun() {
+	protected PartRun() {
 	}
 	
 	// Used to set the thread up with its paremeters
-	public void setUp(AM action, int beginn, int end, CountDownLatch threadsRemaining) {
+	void setUp(MultithreadingAction action, int beginn, int end, CountDownLatch threadsRemaining) {
 		this.action = action; // Takes the user defined action from the object
 		this.beginn = beginn;
 		this.end = end;
