@@ -70,7 +70,7 @@ public class ActionExecutor {
 	/*
 	 * Runs the tasks based on a AM Object and the number of tasks
 	 */
-	public void executeTasks(MultithreadingAction action, int nTasks) {
+	public synchronized void executeTasks(MultithreadingAction action, int nTasks) {
 		
 		// set the parameters for this run
 		this.nTasks = nTasks;
