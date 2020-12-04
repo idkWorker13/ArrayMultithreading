@@ -1,6 +1,7 @@
 package com.github.idkWorker13.ArrayMultithreading;
 
-import com.github.idkWorker13.ArrayMultithreading.ActionExecutor;;
+import com.github.idkWorker13.ArrayMultithreading.ActionExecutor;
+import com.github.idkWorker13.ArrayMultithreading.exceptions.NoWorkException;;
 
 public abstract class AM implements MultithreadingAction {
 	
@@ -16,9 +17,7 @@ public abstract class AM implements MultithreadingAction {
 	public AM(int nTasks) {
 		
 		if (nTasks <= 0) { // Checks if the programm got a good start
-			System.err.println("AM should only be initialised normaly with integer highter than 0, " + nTasks + " was tried.");
-			Thread.dumpStack();
-			return;
+			throw new NoWorkException(new String("AM should only be initialised with integer highter than 0, " + nTasks + " was tried."));
 		};
 		
 		this.actionExecutor = new ActionExecutor();
@@ -56,9 +55,7 @@ public abstract class AM implements MultithreadingAction {
 	protected AM(int nTasks, int prossorCount) {
 			
 		if (nTasks <= 0) { // Checks if the programm got a good start
-			System.err.println("AM should only be initialised normaly with integer highter than 0, " + nTasks + " was tried.");
-			Thread.dumpStack();
-			return;
+			throw new NoWorkException(new String("AM should only be initialised normaly with integer highter than 0, " + nTasks + " was tried."));
 		};
 		
 		this.actionExecutor = new ActionExecutor(prossorCount);

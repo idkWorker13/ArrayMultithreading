@@ -52,6 +52,8 @@ public class KeepAExecutor {
 		
 		actionExecutor.executeTasks(action, members.length);
 		
+		actionExecutor.executeTasks(action, 0);
+		
 		// Remember when using a custom ActionExecutor to shut it down
 		actionExecutor.shutdown();
 	}

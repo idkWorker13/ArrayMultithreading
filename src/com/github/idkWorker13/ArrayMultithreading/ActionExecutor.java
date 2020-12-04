@@ -4,6 +4,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.github.idkWorker13.ArrayMultithreading.exceptions.NoRunnablesCreatedException;
+import com.github.idkWorker13.ArrayMultithreading.exceptions.NoWorkException;
+
 /*
  * This Object is a Executor for Multithreading Actions
  * It contains Runnables and an ExecutorService
@@ -47,9 +50,7 @@ public class ActionExecutor {
 	public ActionExecutor(int nRunnables) {
 		
 		if (nRunnables <= 0) { // Checks if the programm got a good start
-			System.err.println("ActionExecutor should only be initialised normaly with integer highter than 0, " + nRunnables + " was tried.");
-			Thread.dumpStack();
-			return;
+			throw new NoRunnablesCreatedException(new String("ActionExecutor should only be initialised with integer highter than 0, " + nTasks + " was tried."));
 		};
 		
 		this.nRunnables = nRunnables;
@@ -71,6 +72,11 @@ public class ActionExecutor {
 	 * Runs the tasks based on a AM Object and the number of tasks
 	 */
 	public synchronized void executeTasks(MultithreadingAction action, int nTasks) {
+		
+		if (nTasks <= 0) { // Checks if the user tries something bad
+			shutdown(); // Stop all Threads, as they would continue with out this 
+			throw new NoWorkException(new String("Tried to run " + nTasks + " Tasks, can not run nothing"));
+		};
 		
 		// set the parameters for this run
 		this.nTasks = nTasks;
@@ -129,7 +135,7 @@ public class ActionExecutor {
 		threadsRemaining = new CountDownLatch(nTasks);
 		
 		for (int i = 0; i < nTasks; i++) {
-			partRuns[i].setUp(action, i, (i+1), threadsRemaining); // Creta a Part run, thats only has one job
+			partRuns[i].setUp(action, i, (i+1), threadsRemaining); // Create a Part run, thats only has one job
 			executorService.execute(partRuns[i]);
 		}
 	}
